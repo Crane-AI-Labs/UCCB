@@ -137,7 +137,7 @@ If you use the UCCB dataset in your research, please cite:
 
 ```bibtex
 @misc{uccb_2025,
-  author    = {Gimei Alex and Lwanga Caleb and Kavuma Lameck and Kato Steven Mubiru and Roland Ganafa and Sibomana Glorry and Atuhaire Collins and JohnRoy Nangeso and Bronson Bakunga},
+  author    = {Lwanga Caleb and Gimei Alex and Kavuma Lameck and Kato Steven Mubiru and Roland Ganafa and Sibomana Glorry and Atuhaire Collins and JohnRoy Nangeso and Bronson Bakunga},
   title     = {The Ugandan Cultural Context Benchmark (UCCB) Suite},
   year      = {2025},
   url       = {https://huggingface.co/datasets/CraneAILabs/UCCB}
