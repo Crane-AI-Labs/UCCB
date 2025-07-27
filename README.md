@@ -1,3 +1,7 @@
+<div align="center">
+  <img src="UCCB_Logo.png" alt="UCCB Logo" width="600"/>
+</div>
+
 # Ugandan Cultural Context Benchmark (UCCB) Suite
 
 The Ugandan Cultural Context Benchmark (UCCB) Suite is the first comprehensive question-answering dataset designed to evaluate the cultural understanding and reasoning abilities of Large Language Models (LLMs) concerning Uganda's multifaceted environment.
