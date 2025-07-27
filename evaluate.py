@@ -30,9 +30,9 @@ JUDGE_MODEL = "gpt-4o"  # The powerful model that will act as the evaluator
 # 2. Model Under Test Configuration  
 # Configure these for the model you want to evaluate
 TEST_MODEL_API_KEY = os.getenv("TEST_MODEL_API_KEY")
-TEST_MODEL_BASE_URL = os.getenv("TEST_MODEL_BASE_URL", "https://api.openai.com/v1")
-TEST_MODEL_NAME = "gemma-3-4b-it"  # The actual model being tested
-MODEL_UNDER_TEST_NAME = "gemma_3_4b_it_v1"  # Label for results file 
+TEST_MODEL_BASE_URL = os.getenv("TEST_MODEL_BASE_URL", "https://generativelanguage.googleapis.com/v1beta/openai/")
+TEST_MODEL_NAME = "gemini-2.0.-flash"  # The actual model being tested
+MODEL_UNDER_TEST_NAME = "gemini_2.0_flash_v1"  # Label for results file 
 
 # 3. Dataset Configuration
 # The name of your dataset on the Hugging Face Hub.
@@ -131,7 +131,7 @@ def get_judge_evaluation(question: str, reference_answer: str, model_answer: str
             model=JUDGE_MODEL,
             messages=[{"role": "user", "content": judge_prompt}],
             response_format={"type": "json_object"},
-            temperature=0.0 # Zero temperature for objective, deterministic judging
+            temperature=0.7,
         )
         evaluation_json = json.loads(response.choices[0].message.content)
         return evaluation_json
