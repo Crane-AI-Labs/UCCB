@@ -84,7 +84,16 @@ This repository includes an evaluation script that uses an "LLM-as-a-Judge" appr
 # Install dependencies
 pip install openai datasets tqdm
 
-# Set your API key
+# Set up environment variables
+# For Judge Model (GPT-4o - required)
+export JUDGE_API_KEY="your_openai_api_key"
+export JUDGE_BASE_URL="https://api.openai.com/v1"  # Optional, defaults to OpenAI
+
+# For Test Model (the model you want to evaluate)
+export TEST_MODEL_API_KEY="your_test_model_api_key"  # Optional if same as judge
+export TEST_MODEL_BASE_URL="your_test_model_endpoint"  # e.g., Google API, local server
+
+# Alternative: If both models use the same OpenAI credentials
 export OPENAI_API_KEY="your_openai_api_key"
 
 # Run evaluation
@@ -101,22 +110,37 @@ The evaluation uses GPT-4o as a judge to score model responses on a scale of 1-5
 
 ## 🛠️ Setting Up Your Model
 
-To evaluate your own model, modify the `get_model_response` function in `evaluate.py`:
+The evaluation script separates the judge model (GPT-4o) from the model being tested. To evaluate your own model:
+
+### 1. Configure Your Test Model
+Edit the configuration section in `evaluate.py`:
 
 ```python
-def get_model_response(question: str, client: OpenAI) -> str:
-    # Replace this with your model's inference logic
-    # Examples:
+# 2. Model Under Test Configuration  
+TEST_MODEL_API_KEY = os.getenv("TEST_MODEL_API_KEY")
+TEST_MODEL_BASE_URL = os.getenv("TEST_MODEL_BASE_URL", "your_api_endpoint")
+TEST_MODEL_NAME = "your-model-name"  # The actual model being tested
+MODEL_UNDER_TEST_NAME = "your_model_label"  # Label for results file
+```
+
+### 2. Customize Model Response Function
+Modify the `get_model_response` function in `evaluate.py`:
+
+```python
+def get_model_response(question: str, test_client: OpenAI) -> str:
+    # Examples for different setups:
     
-    # For local models:
-    # response = your_model.generate(question)
-    # return response
+    # For OpenAI-compatible APIs:
+    response = test_client.chat.completions.create(
+        model=TEST_MODEL_NAME,
+        messages=[{"role": "user", "content": question}],
+        temperature=0.7,
+        max_tokens=250
+    )
+    return response.choices[0].message.content
     
-    # For API-based models:
-    # response = your_api_client.complete(prompt=question)
-    # return response.text
-    
-    pass  # Your implementation here
+    # For local models or other APIs:
+    # return your_custom_inference_logic(question)
 ```
 
 ## 📈 Results Format
